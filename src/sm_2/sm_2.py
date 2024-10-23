@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 from copy import deepcopy
+from math import ceil
 
 class Card:
 
@@ -56,19 +57,20 @@ class SM2Scheduler:
 
             else:
 
-                card.I = round(card.I * card.EF)
+                card.I = ceil(card.I * card.EF)
 
             card.due += timedelta(days=card.I)
 
             card.n += 1
 
+            # note: EF increases when rating = 5, stays the same when rating = 4 and decreases when rating = 3
             card.EF = card.EF + (0.1-(5-rating)*(0.08+(5-rating)*0.02))
 
         else: # incorrect response
 
             card.n = 0
             card.I = 0
-            card.due = datetime.now(timezone.utc)
+            card.due = review_datetime
             # EF doesn't change on incorrect reponses
 
         return card, review_log
