@@ -1,5 +1,6 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import Optional
+from copy import deepcopy
 
 class Card:
 
@@ -8,15 +9,14 @@ class Card:
     I: int
     due: datetime
 
-    def __init__(self, n=0, EF=2.5, I=None, due=None):
+    def __init__(self, n=0, EF=2.5, I=0, due=None):
 
         self.n = n
         self.EF = EF
         self.I = I
         if due is None:
             due = datetime.now(timezone.utc)
-        else:
-            self.due = due
+        self.due = due
 
 class ReviewLog:
 
@@ -24,7 +24,7 @@ class ReviewLog:
     review_datetime: datetime
     card: Card
 
-    def __init__(self, rating: int, review_datetime: datetime, card: Card):
+    def __init__(self, card: Card, rating: int, review_datetime: datetime):
 
         self.rating = rating
         self.review_datetime = review_datetime
@@ -32,9 +32,43 @@ class ReviewLog:
 
 class SM2Scheduler:
 
-#    def __init__(self):
-#
-#        self.private_var = 1
     @staticmethod
     def review_card(card: Card, rating: int, review_datetime: Optional[datetime]=None) -> tuple[Card, ReviewLog]:
-        pass
+        
+        card = deepcopy(card)
+
+        card_is_due = review_datetime >= card.due
+
+        if not card_is_due:
+            raise RuntimeError(f"Card is not due for review until {card.due}.")
+        
+        review_log = ReviewLog(card=card, rating=rating, review_datetime=review_datetime)
+
+        if rating >= 3: # correct response
+            
+            if card.n == 0:
+
+                card.I = 1
+
+            elif card.n == 1:
+
+                card.I = 6
+
+            else:
+
+                card.I = round(card.I * card.EF)
+
+            card.due += timedelta(days=card.I)
+
+            card.n += 1
+
+            card.EF = card.EF + (0.1-(5-rating)*(0.08+(5-rating)*0.02))
+
+        else: # incorrect response
+
+            card.n = 0
+            card.I = 0
+            card.due = datetime.now(timezone.utc)
+            # EF doesn't change on incorrect reponses
+
+        return card, review_log
