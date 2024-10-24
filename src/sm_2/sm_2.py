@@ -45,6 +45,9 @@ class SM2Scheduler:
         
         card = deepcopy(card)
 
+        if review_datetime is None:
+            review_datetime = datetime.now(timezone.utc)
+
         card_is_due = review_datetime >= card.due
 
         if not card_is_due:
