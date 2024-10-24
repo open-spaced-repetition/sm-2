@@ -1,9 +1,30 @@
+"""
+sm_2.sm_2
+
+This module defines each of the classes used in the sm_2 package.
+
+Classes:
+    Card: Represents a flashcard in the SM-2 scheduling system.
+    ReviewLog: Represents the log entry of a Card object that has been reviewed.
+    SM2Scheduler: The SM-2 scheduler.
+"""
+
 from datetime import datetime, timezone, timedelta
 from typing import Optional, Union, Any
 from copy import deepcopy
 from math import ceil
 
 class Card:
+    """
+    Represents a flashcard in the SM-2 scheduling system.
+
+    Attributes:
+        n (int): The number of times the card has been correctly recalled in a row, excluding any extra reviews (see needs_extra_review below).
+        EF (float): The easiness factor of the card.
+        I (int): The interval length in days between when the card is next due and when it was last reviewed.
+        due (datetime): When the card is due for review.
+        needs_extra_review (bool): In the SM-2 system, if a card has been rated less than 4, it must be reviewed again in the same day until it's rated 4 or 5. This is a flag variable that determines if the card needs to reviewed once more.
+    """
 
     n: int
     EF: float
@@ -47,6 +68,14 @@ class Card:
 
 
 class ReviewLog:
+    """
+    Represents the log entry of a Card object that has been reviewed.
+
+    Attributes:
+        card (Card): Copy of the card object that was reviewed.
+        rating (int): The rating given to the card during the review.
+        review_datetime (datetime): The date and time of the review.
+    """
 
     card: Card
     rating: int
@@ -79,10 +108,32 @@ class ReviewLog:
 
 
 class SM2Scheduler:
+    """
+    The SM-2 scheduler.
+
+    Enables the reviewing and future scheduling of cards according to the SM-2 algorithm.
+
+    Note: This class has no attributes and only provides static methods. The reason the scheduler exists
+    as a class is to be consistent with other spaced repetition python packages.
+    """
 
     @staticmethod
     def review_card(card: Card, rating: int, review_datetime: Optional[datetime]=None) -> tuple[Card, ReviewLog]:
-        
+        """
+        Reviews a card with a given rating at a specified time.
+
+        Args:
+            card (Card): The card being reviewed.
+            rating (int): The chosen rating for the card being reviewed. Possible values are 0,1,2,3,4,5.
+            review_datetime (Optional[datetime]): The date and time of the review.
+
+        Returns:
+            tuple: A tuple containing the updated, reviewed card and its corresponding review log.
+
+        Raises:
+            RuntimeError: If the given card is reviewed at a time where it is not yet due.
+        """
+
         card = deepcopy(card)
 
         if review_datetime is None:
