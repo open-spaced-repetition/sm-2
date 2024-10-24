@@ -9,8 +9,10 @@ class Card:
     EF: float
     I: int
     due: datetime
+    needs_extra_review: bool
+    # TODO: add optional card id
 
-    def __init__(self, n=0, EF=2.5, I=0, due=None):
+    def __init__(self, n=0, EF=2.5, I=0, due=None, needs_extra_review=False):
 
         self.n = n
         self.EF = EF
@@ -18,6 +20,9 @@ class Card:
         if due is None:
             due = datetime.now(timezone.utc)
         self.due = due
+        self.needs_extra_review = needs_extra_review
+
+    # TODO: add serialization
 
 class ReviewLog:
 
@@ -30,6 +35,8 @@ class ReviewLog:
         self.rating = rating
         self.review_datetime = review_datetime
         self.card = card
+
+    # TODO: add serialization
 
 class SM2Scheduler:
 
@@ -45,32 +52,48 @@ class SM2Scheduler:
         
         review_log = ReviewLog(card=card, rating=rating, review_datetime=review_datetime)
 
-        if rating >= 3: # correct response
-            
-            if card.n == 0:
+        if card.needs_extra_review:
 
-                card.I = 1
+            if rating >= 4:
+                card.needs_extra_review = False
+                card.due += timedelta(days=card.I)
 
-            elif card.n == 1:
+        else:
 
-                card.I = 6
+            if rating >= 3: # correct response
+                
+                if card.n == 0:
 
-            else:
+                    card.I = 1
 
-                card.I = ceil(card.I * card.EF)
+                elif card.n == 1:
 
-            card.due += timedelta(days=card.I)
+                    card.I = 6
 
-            card.n += 1
+                else:
 
-            # note: EF increases when rating = 5, stays the same when rating = 4 and decreases when rating = 3
-            card.EF = card.EF + (0.1-(5-rating)*(0.08+(5-rating)*0.02))
+                    card.I = ceil(card.I * card.EF)
 
-        else: # incorrect response
+                card.n += 1
 
-            card.n = 0
-            card.I = 0
-            card.due = review_datetime
-            # EF doesn't change on incorrect reponses
+                # note: EF increases when rating = 5, stays the same when rating = 4 and decreases when rating = 3
+                card.EF = card.EF + (0.1-(5-rating)*(0.08+(5-rating)*0.02))
+                card.EF = max(1.3, card.EF)
+
+                if rating >= 4:
+
+                    card.due += timedelta(days=card.I)
+
+                else:
+
+                    card.needs_extra_review = True
+                    card.due = review_datetime
+
+            else: # incorrect response
+
+                card.n = 0
+                card.I = 0
+                card.due = review_datetime
+                # EF doesn't change on incorrect reponses
 
         return card, review_log
