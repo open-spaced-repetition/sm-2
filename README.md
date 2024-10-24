@@ -52,3 +52,37 @@ print(f"Card due in {time_delta.seconds / 3600} hours")
 # > Card due: at datetime.datetime(2024, 10, 25, 2, 14, 20, 799320, tzinfo=datetime.timezone.utc)
 # > Card due in 23.99972222222222 hours
 ```
+
+## Usage
+
+### Timezone
+
+SM-2 uses UTC only. You can still specify custom datetimes, but they must be UTC.
+
+```python
+from sm_2 import SM2Scheduler, Card, ReviewLog
+from datetime import datetime, timezone
+
+scheduler = SM2Scheduler()
+
+# create a new card on Jan. 1, 2024
+card = Card(due=datetime(2024, 1, 1, 0, 0, 0, 0, timezone.utc)) # right
+#card = Card(due=datetime(2024, 1, 1, 0, 0, 0, 0)) # wrong
+
+# review the card on Jan. 2, 2024
+card, review_log = scheduler.review_card(card=card, rating=5, review_datetime=datetime(2024, 1, 1, 0, 0, 0, 0, timezone.utc)) # right
+#card, review_log = scheduler.review_card(card=card, rating=5, review_datetime=datetime(2024, 1, 1, 0, 0, 0, 0)) # wrong
+```
+
+### Serialization
+
+`Card` and `ReviewLog` objects are json-serializable via their `to_dict` and `from_dict` methods for easy database storage:
+```python
+# serialize before storage
+card_dict = card.to_dict()
+review_log_dict = review_log.to_dict()
+
+# deserialize from dict
+card = Card.from_dict(card_dict)
+review_log = ReviewLog.from_dict(review_log_dict)
+```
