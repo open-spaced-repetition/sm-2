@@ -2,8 +2,30 @@ from sm_2 import SM2Scheduler, Card, ReviewLog
 import json
 import pytest
 from copy import deepcopy
+from datetime import datetime, timezone
 
 class TestSM2:
+
+    def test_quickstart(self):
+
+        scheduler = SM2Scheduler()
+
+        card = Card()
+
+        # card is due immediately upon creation
+        assert datetime.now(timezone.utc) > card.due
+
+        rating = 5
+
+        card, review_log = scheduler.review_card(card, rating)
+
+        due = card.due
+
+        # how much time between when the card is due and now
+        time_delta = due - datetime.now(timezone.utc)
+
+        # card is due in 1 day (24 hours)
+        assert round(time_delta.seconds / 3600) == 24
 
     def test_serialize(self):
 
