@@ -48,17 +48,35 @@ class Card:
 
 class ReviewLog:
 
+    card: Card
     rating: int
     review_datetime: datetime
-    card: Card
 
     def __init__(self, card: Card, rating: int, review_datetime: datetime):
 
+        self.card = deepcopy(card)
         self.rating = rating
         self.review_datetime = review_datetime
-        self.card = card
 
-    # TODO: add serialization
+    def to_dict(self):
+
+        return_dict = {
+            "card": self.card.to_dict(),
+            "rating": self.rating,
+            "review_datetime": self.review_datetime.isoformat()
+        }
+
+        return return_dict
+    
+    @staticmethod
+    def from_dict(source_dict):
+
+        card = Card.from_dict(source_dict['card'])
+        rating = int(source_dict['rating'])
+        review_datetime = datetime.fromisoformat(source_dict['review_datetime'])
+
+        return ReviewLog(card=card, rating=rating, review_datetime=review_datetime)
+
 
 class SM2Scheduler:
 
