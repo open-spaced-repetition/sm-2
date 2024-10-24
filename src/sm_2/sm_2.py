@@ -1,5 +1,5 @@
 from datetime import datetime, timezone, timedelta
-from typing import Optional
+from typing import Optional, Union, Any
 from copy import deepcopy
 from math import ceil
 
@@ -12,7 +12,7 @@ class Card:
     needs_extra_review: bool
     # TODO: add optional card id
 
-    def __init__(self, n=0, EF=2.5, I=0, due=None, needs_extra_review=False):
+    def __init__(self, n: int=0, EF: float=2.5, I: int=0, due: Optional[datetime]=None, needs_extra_review: bool=False) -> None:
 
         self.n = n
         self.EF = EF
@@ -22,9 +22,9 @@ class Card:
         self.due = due
         self.needs_extra_review = needs_extra_review
 
-    def to_dict(self):
+    def to_dict(self) -> dict[str, Union[int, float, str, bool]]:
 
-        return_dict = {
+        return_dict: dict[str, Union[int, float, str, bool]] = {
             "n": self.n,
             "EF": self.EF,
             "I": self.I,
@@ -35,7 +35,7 @@ class Card:
         return return_dict
     
     @staticmethod
-    def from_dict(source_dict):
+    def from_dict(source_dict: dict[str, Any]) -> "Card":
 
         n = int(source_dict['n'])
         EF = float(source_dict['EF'])
@@ -52,15 +52,15 @@ class ReviewLog:
     rating: int
     review_datetime: datetime
 
-    def __init__(self, card: Card, rating: int, review_datetime: datetime):
+    def __init__(self, card: Card, rating: int, review_datetime: datetime) -> None:
 
         self.card = deepcopy(card)
         self.rating = rating
         self.review_datetime = review_datetime
 
-    def to_dict(self):
+    def to_dict(self) -> dict[str, Union[dict, int, str]]:
 
-        return_dict = {
+        return_dict: dict[str, Union[dict, int, str]] = {
             "card": self.card.to_dict(),
             "rating": self.rating,
             "review_datetime": self.review_datetime.isoformat()
@@ -69,7 +69,7 @@ class ReviewLog:
         return return_dict
     
     @staticmethod
-    def from_dict(source_dict):
+    def from_dict(source_dict: dict[str, Any]) -> "ReviewLog":
 
         card = Card.from_dict(source_dict['card'])
         rating = int(source_dict['rating'])
