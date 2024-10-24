@@ -22,7 +22,29 @@ class Card:
         self.due = due
         self.needs_extra_review = needs_extra_review
 
-    # TODO: add serialization
+    def to_dict(self):
+
+        return_dict = {
+            "n": self.n,
+            "EF": self.EF,
+            "I": self.I,
+            "due": self.due.isoformat(),
+            "needs_extra_review": self.needs_extra_review
+        }
+
+        return return_dict
+    
+    @staticmethod
+    def from_dict(source_dict):
+
+        n = int(source_dict['n'])
+        EF = float(source_dict['EF'])
+        I = int(source_dict['I'])
+        due = datetime.fromisoformat(source_dict['due'])
+        needs_extra_review = bool(source_dict['needs_extra_review'])
+
+        return Card(n=n, EF=EF, I=I, due=due, needs_extra_review=needs_extra_review)
+
 
 class ReviewLog:
 
