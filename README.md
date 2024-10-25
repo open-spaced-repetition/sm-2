@@ -86,3 +86,12 @@ review_log_dict = review_log.to_dict()
 card = Card.from_dict(card_dict)
 review_log = ReviewLog.from_dict(review_log_dict)
 ```
+
+## Versioning
+
+This python package is currently unstable and adheres to the following versioning scheme:
+
+- **Minor** version will increase when a backward-incompatible change is introduced.
+- **Patch** version will increase when a bug is fixed or a new feature is added.
+
+Once this package is considered stable, the **Major** version will be bumped to 1.0.0 and will follow [semver](https://semver.org/).
