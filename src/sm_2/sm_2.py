@@ -19,6 +19,7 @@ class Card:
     Represents a flashcard in the SM-2 scheduling system.
 
     Attributes:
+        card_id (int): The id of the card. Defaults to the epoch miliseconds of when the card was created.
         n (int): The number of times the card has been correctly recalled in a row, excluding any extra reviews (see needs_extra_review below).
         EF (float): The easiness factor of the card.
         I (int): The interval length in days between when the card is next due and when it was last reviewed.
@@ -26,26 +27,36 @@ class Card:
         needs_extra_review (bool): In the SM-2 system, if a card has been rated less than 4, it must be reviewed again in the same day until it's rated 4 or 5. This is a flag variable that determines if the card needs to reviewed once more.
     """
 
+    card_id: int
     n: int
     EF: float
     I: int
     due: datetime
     needs_extra_review: bool
-    # TODO: add optional card id
 
-    def __init__(self, n: int=0, EF: float=2.5, I: int=0, due: Optional[datetime]=None, needs_extra_review: bool=False) -> None:
+    def __init__(self, created_at: Optional[datetime]=None, card_id: Optional[int]=None , n: int=0, EF: float=2.5, I: int=0, due: Optional[datetime]=None, needs_extra_review: bool=False) -> None:
+
+        if created_at is None:
+            created_at = datetime.now(timezone.utc)
+
+        if card_id is None:
+            card_id = int(created_at.timestamp() * 1000)
+        self.card_id = card_id
 
         self.n = n
         self.EF = EF
         self.I = I
+
         if due is None:
-            due = datetime.now(timezone.utc)
+            due = created_at
         self.due = due
+
         self.needs_extra_review = needs_extra_review
 
     def to_dict(self) -> dict[str, Union[int, float, str, bool]]:
 
         return_dict: dict[str, Union[int, float, str, bool]] = {
+            "card_id": self.card_id,
             "n": self.n,
             "EF": self.EF,
             "I": self.I,
@@ -58,13 +69,14 @@ class Card:
     @staticmethod
     def from_dict(source_dict: dict[str, Any]) -> "Card":
 
+        card_id = int(source_dict['card_id'])
         n = int(source_dict['n'])
         EF = float(source_dict['EF'])
         I = int(source_dict['I'])
         due = datetime.fromisoformat(source_dict['due'])
         needs_extra_review = bool(source_dict['needs_extra_review'])
 
-        return Card(n=n, EF=EF, I=I, due=due, needs_extra_review=needs_extra_review)
+        return Card(card_id=card_id, n=n, EF=EF, I=I, due=due, needs_extra_review=needs_extra_review)
 
 
 class ReviewLog:
