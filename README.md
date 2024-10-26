@@ -102,3 +102,7 @@ This python package is currently unstable and adheres to the following versionin
 - **Patch** version will increase when a bug is fixed or a new feature is added.
 
 Once this package is considered stable, the **Major** version will be bumped to 1.0.0 and will follow [semver](https://semver.org/).
+
+## Contribute
+
+Checkout [CONTRIBUTING](https://github.com/joshdavham/sm-2/blob/main/CONTRIBUTING.md) to help improve sm-2!
