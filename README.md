@@ -2,6 +2,13 @@
 
 Python package implementing the [SM-2](https://super-memory.com/english/ol/sm2.htm) algorithm for spaced repetition scheduling.
 
+## Installation
+
+You can install the sm-2 python package from [PyPI](https://pypi.org/project/sm-2/) using pip:
+```
+pip install sm-2
+```
+
 ## Quickstart
 
 Import and initialize the SM-2 scheduler
