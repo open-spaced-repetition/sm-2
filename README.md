@@ -1,6 +1,27 @@
-# sm-2
+<div align="center">
+  <img src="https://avatars.githubusercontent.com/u/96821265?s=200&v=4" height="100" alt="Open Spaced Repetition logo"/>
+</div>
+<div align="center">
 
-Python package implementing the [SM-2](https://super-memory.com/english/ol/sm2.htm) algorithm for spaced repetition scheduling.
+# SM-2
+</div>
+
+<div align="center">
+  <em>🧠🔄 Build your own Spaced Repetition System in Python 🧠🔄</em>
+</div>
+<br />
+<div align="center" style="text-decoration: none;">
+    <a href="https://pypi.org/project/sm-2/"><img src="https://img.shields.io/pypi/v/sm-2"></a>
+    <a href="https://github.com/open-spaced-repetition/sm-2/blob/main/LICENSE" style="text-decoration: none;"><img src="https://img.shields.io/badge/License-MIT-brightgreen.svg"></a>
+</div>
+<br />
+
+<div align="left">
+    <strong>
+    Python package implementing the classic <a href="https://super-memory.com/english/ol/sm2.htm">SM-2</a> algorithm for spaced repetition scheduling.
+    </strong>
+</div>
+
 
 ## Installation
 
@@ -105,4 +126,4 @@ Once this package is considered stable, the **Major** version will be bumped to 
 
 ## Contribute
 
-Checkout [CONTRIBUTING](https://github.com/joshdavham/sm-2/blob/main/CONTRIBUTING.md) to help improve sm-2!
+Checkout [CONTRIBUTING](https://github.com/open-spaced-repetition/sm-2/blob/main/CONTRIBUTING.md) to help improve sm-2!

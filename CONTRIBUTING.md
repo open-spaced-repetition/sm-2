@@ -8,12 +8,12 @@ In this short guide, you will get a quick overview of how you can contribute to 
 
 If you encounter an issue with sm-2 and would like to report it, you'll first want to make sure you're using the latest version of sm-2.
 
-The latest version of sm-2 can be found under [releases](https://github.com/joshdavham/sm-2/releases) and you can verify the version of your current installation with the following command:
+The latest version of sm-2 can be found under [releases](https://github.com/open-spaced-repetition/sm-2/releases) and you can verify the version of your current installation with the following command:
 ```
 pip show sm-2
 ```
 
-Once you've confirmed your version, please report your issue in the [issues tab](https://github.com/joshdavham/sm-2/issues).
+Once you've confirmed your version, please report your issue in the [issues tab](https://github.com/open-spaced-repetition/sm-2/issues).
 
 ## Contributing code
 
