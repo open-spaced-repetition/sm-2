@@ -105,4 +105,4 @@ Once this package is considered stable, the **Major** version will be bumped to 
 
 ## Contribute
 
-Checkout [CONTRIBUTING](https://github.com/joshdavham/sm-2/blob/main/CONTRIBUTING.md) to help improve sm-2!
+Checkout [CONTRIBUTING](https://github.com/open-spaced-repetition/sm-2/blob/main/CONTRIBUTING.md) to help improve sm-2!
