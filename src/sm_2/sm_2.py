@@ -87,24 +87,28 @@ class ReviewLog:
         card (Card): Copy of the card object that was reviewed.
         rating (int): The rating given to the card during the review.
         review_datetime (datetime): The date and time of the review.
+        review_duration (Optional[int]): The amount of time in miliseconds it took to review the card, if specified.
     """
 
     card: Card
     rating: int
     review_datetime: datetime
+    review_duration: Optional[int]
 
-    def __init__(self, card: Card, rating: int, review_datetime: datetime) -> None:
+    def __init__(self, card: Card, rating: int, review_datetime: datetime, review_duration: Optional[int] = None) -> None:
 
         self.card = deepcopy(card)
         self.rating = rating
         self.review_datetime = review_datetime
+        self.review_duration = review_duration
 
-    def to_dict(self) -> dict[str, Union[dict, int, str]]:
+    def to_dict(self) -> dict[str, Union[dict, int, str, None]]:
 
-        return_dict: dict[str, Union[dict, int, str]] = {
+        return_dict: dict[str, Union[dict, int, str, None]] = {
             "card": self.card.to_dict(),
             "rating": self.rating,
-            "review_datetime": self.review_datetime.isoformat()
+            "review_datetime": self.review_datetime.isoformat(),
+            "review_duration": self.review_duration
         }
 
         return return_dict
@@ -115,8 +119,9 @@ class ReviewLog:
         card = Card.from_dict(source_dict['card'])
         rating = int(source_dict['rating'])
         review_datetime = datetime.fromisoformat(source_dict['review_datetime'])
+        review_duration = source_dict['review_duration']
 
-        return ReviewLog(card=card, rating=rating, review_datetime=review_datetime)
+        return ReviewLog(card=card, rating=rating, review_datetime=review_datetime, review_duration=review_duration)
 
 
 class SM2Scheduler:
@@ -130,7 +135,7 @@ class SM2Scheduler:
     """
 
     @staticmethod
-    def review_card(card: Card, rating: int, review_datetime: Optional[datetime]=None) -> tuple[Card, ReviewLog]:
+    def review_card(card: Card, rating: int, review_datetime: Optional[datetime]=None, review_duration: Optional[int] = None) -> tuple[Card, ReviewLog]:
         """
         Reviews a card with a given rating at a specified time.
 
@@ -138,6 +143,7 @@ class SM2Scheduler:
             card (Card): The card being reviewed.
             rating (int): The chosen rating for the card being reviewed. Possible values are 0,1,2,3,4,5.
             review_datetime (Optional[datetime]): The date and time of the review.
+            review_duration (Optional[int]): The amount of time in miliseconds it took to review the card, if specified.
 
         Returns:
             tuple: A tuple containing the updated, reviewed card and its corresponding review log.
@@ -156,7 +162,7 @@ class SM2Scheduler:
         if not card_is_due:
             raise RuntimeError(f"Card is not due for review until {card.due}.")
         
-        review_log = ReviewLog(card=card, rating=rating, review_datetime=review_datetime)
+        review_log = ReviewLog(card=card, rating=rating, review_datetime=review_datetime, review_duration=review_duration)
 
         if card.needs_extra_review:
 
