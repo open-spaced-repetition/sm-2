@@ -17,7 +17,7 @@ classifiers = [
 keywords=['sm-2', 'spaced-repetition', 'flashcard']
 urls = { homepage = "https://github.com/open-spaced-repetition/sm-2" }
 dependencies = []
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 [tool.mypy]
 ignore_missing_imports = true
