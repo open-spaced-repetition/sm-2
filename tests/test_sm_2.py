@@ -45,11 +45,13 @@ class TestSM2:
 
         # review the card and perform more tests
         rating = 5
-        card, review_log = scheduler.review_card(card, rating)
+        review_duration = 3000
+        card, review_log = scheduler.review_card(card=card, rating=rating, review_duration=review_duration)
 
         review_log_dict = review_log.to_dict()
         copied_review_log = ReviewLog.from_dict(review_log_dict)
         assert review_log.to_dict() == copied_review_log.to_dict()
+        assert copied_review_log.review_duration == review_duration
         # can use the review log to recreate the card that was reviewed
         assert old_card.to_dict() == Card.from_dict(review_log.to_dict()['card']).to_dict()
 
