@@ -10,7 +10,7 @@ Classes:
 """
 
 from datetime import datetime, timezone, timedelta
-from typing import Optional, Union, Any
+from typing import Any
 from copy import deepcopy
 from math import ceil
 
@@ -34,7 +34,7 @@ class Card:
     due: datetime
     needs_extra_review: bool
 
-    def __init__(self, created_at: Optional[datetime]=None, card_id: Optional[int]=None , n: int=0, EF: float=2.5, I: int=0, due: Optional[datetime]=None, needs_extra_review: bool=False) -> None:
+    def __init__(self, created_at: datetime | None = None, card_id: int | None = None, n: int=0, EF: float=2.5, I: int=0, due: datetime | None = None, needs_extra_review: bool=False) -> None:
 
         if created_at is None:
             created_at = datetime.now(timezone.utc)
@@ -53,9 +53,9 @@ class Card:
 
         self.needs_extra_review = needs_extra_review
 
-    def to_dict(self) -> dict[str, Union[int, float, str, bool]]:
+    def to_dict(self) -> dict[str, int | float | str | bool]:
 
-        return_dict: dict[str, Union[int, float, str, bool]] = {
+        return_dict: dict[str, int | float | str | bool] = {
             "card_id": self.card_id,
             "n": self.n,
             "EF": self.EF,
@@ -87,24 +87,24 @@ class ReviewLog:
         card (Card): Copy of the card object that was reviewed.
         rating (int): The rating given to the card during the review.
         review_datetime (datetime): The date and time of the review.
-        review_duration (Optional[int]): The amount of time in miliseconds it took to review the card, if specified.
+        review_duration (int | None): The amount of time in miliseconds it took to review the card, if specified.
     """
 
     card: Card
     rating: int
     review_datetime: datetime
-    review_duration: Optional[int]
+    review_duration: int | None
 
-    def __init__(self, card: Card, rating: int, review_datetime: datetime, review_duration: Optional[int] = None) -> None:
+    def __init__(self, card: Card, rating: int, review_datetime: datetime, review_duration: int | None = None) -> None:
 
         self.card = deepcopy(card)
         self.rating = rating
         self.review_datetime = review_datetime
         self.review_duration = review_duration
 
-    def to_dict(self) -> dict[str, Union[dict, int, str, None]]:
+    def to_dict(self) -> dict[str, dict | int | str | None]:
 
-        return_dict: dict[str, Union[dict, int, str, None]] = {
+        return_dict: dict[str, dict | int | str | None] = {
             "card": self.card.to_dict(),
             "rating": self.rating,
             "review_datetime": self.review_datetime.isoformat(),
@@ -135,15 +135,15 @@ class SM2Scheduler:
     """
 
     @staticmethod
-    def review_card(card: Card, rating: int, review_datetime: Optional[datetime]=None, review_duration: Optional[int] = None) -> tuple[Card, ReviewLog]:
+    def review_card(card: Card, rating: int, review_datetime: datetime | None = None, review_duration: int | None = None) -> tuple[Card, ReviewLog]:
         """
         Reviews a card with a given rating at a specified time.
 
         Args:
             card (Card): The card being reviewed.
             rating (int): The chosen rating for the card being reviewed. Possible values are 0,1,2,3,4,5.
-            review_datetime (Optional[datetime]): The date and time of the review.
-            review_duration (Optional[int]): The amount of time in miliseconds it took to review the card, if specified.
+            review_datetime (datetime | None): The date and time of the review.
+            review_duration (int | None): The amount of time in miliseconds it took to review the card, if specified.
 
         Returns:
             tuple: A tuple containing the updated, reviewed card and its corresponding review log.
