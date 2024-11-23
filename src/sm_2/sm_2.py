@@ -173,6 +173,10 @@ class SM2Scheduler:
         else:
 
             if rating >= 3: # correct response
+
+                # note: EF increases when rating = 5, stays the same when rating = 4 and decreases when rating = 3
+                card.EF = card.EF + (0.1-(5-rating)*(0.08+(5-rating)*0.02))
+                card.EF = max(1.3, card.EF)
                 
                 if card.n == 0:
 
@@ -187,10 +191,6 @@ class SM2Scheduler:
                     card.I = ceil(card.I * card.EF)
 
                 card.n += 1
-
-                # note: EF increases when rating = 5, stays the same when rating = 4 and decreases when rating = 3
-                card.EF = card.EF + (0.1-(5-rating)*(0.08+(5-rating)*0.02))
-                card.EF = max(1.3, card.EF)
 
                 if rating >= 4:
 
