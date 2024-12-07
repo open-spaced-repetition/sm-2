@@ -34,13 +34,11 @@ class Card:
     due: datetime
     needs_extra_review: bool
 
-    def __init__(self, created_at: datetime | None = None, card_id: int | None = None, n: int=0, EF: float=2.5, I: int=0, due: datetime | None = None, needs_extra_review: bool=False) -> None:
-
-        if created_at is None:
-            created_at = datetime.now(timezone.utc)
+    def __init__(self, card_id: int | None = None, n: int=0, EF: float=2.5, I: int=0, due: datetime | None = None, needs_extra_review: bool=False) -> None:
 
         if card_id is None:
-            card_id = int(created_at.timestamp() * 1000)
+            # epoch miliseconds of when the card was created
+            card_id = int(datetime.now(timezone.utc).timestamp() * 1000)
         self.card_id = card_id
 
         self.n = n
@@ -48,7 +46,7 @@ class Card:
         self.I = I
 
         if due is None:
-            due = created_at
+            due = datetime.now(timezone.utc)
         self.due = due
 
         self.needs_extra_review = needs_extra_review

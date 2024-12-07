@@ -93,13 +93,13 @@ from datetime import datetime, timezone
 
 scheduler = Scheduler()
 
-# create a new card on Jan. 1, 2024
-card = Card(created_at=datetime(2024, 1, 1, 0, 0, 0, 0, timezone.utc)) # right
-#card = Card(created_at=datetime(2024, 1, 1, 0, 0, 0, 0)) # wrong
+# create a new due card on Jan. 1, 2024
+card = Card(due=datetime(2024, 1, 1, 0, 0, 0, 0, timezone.utc)) # right
+#card = Card(due=datetime(2024, 1, 1, 0, 0, 0, 0)) # wrong
 
 # review the card on Jan. 2, 2024
-card, review_log = scheduler.review_card(card=card, rating=5, review_datetime=datetime(2024, 1, 1, 0, 0, 0, 0, timezone.utc)) # right
-#card, review_log = scheduler.review_card(card=card, rating=5, review_datetime=datetime(2024, 1, 1, 0, 0, 0, 0)) # wrong
+card, review_log = scheduler.review_card(card=card, rating=Rating.Good, review_datetime=datetime(2024, 1, 2, 0, 0, 0, 0, timezone.utc)) # right
+#card, review_log = scheduler.review_card(card=card, rating=Rating.Good, review_datetime=datetime(2024, 1, 2, 0, 0, 0, 0)) # wrong
 ```
 
 ### Serialization
