@@ -19,5 +19,8 @@ urls = { homepage = "https://github.com/open-spaced-repetition/sm-2" }
 dependencies = []
 requires-python = ">=3.10"
 
+[tool.ruff.lint]
+ignore = ["F401", "F403", "F405", "E721", "E741"]
+
 [tool.mypy]
 ignore_missing_imports = true
