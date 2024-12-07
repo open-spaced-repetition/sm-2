@@ -4,10 +4,9 @@ import pytest
 from copy import deepcopy
 from datetime import datetime, timezone
 
+
 class TestSM2:
-
     def test_quickstart(self):
-
         scheduler = Scheduler()
 
         card = Card()
@@ -28,7 +27,6 @@ class TestSM2:
         assert round(time_delta.seconds / 3600) == 24
 
     def test_serialize(self):
-
         scheduler = Scheduler()
 
         card = Card()
@@ -46,14 +44,18 @@ class TestSM2:
         # review the card and perform more tests
         rating = 5
         review_duration = 3000
-        card, review_log = scheduler.review_card(card=card, rating=rating, review_duration=review_duration)
+        card, review_log = scheduler.review_card(
+            card=card, rating=rating, review_duration=review_duration
+        )
 
         review_log_dict = review_log.to_dict()
         copied_review_log = ReviewLog.from_dict(review_log_dict)
         assert review_log.to_dict() == copied_review_log.to_dict()
         assert copied_review_log.review_duration == review_duration
         # can use the review log to recreate the card that was reviewed
-        assert old_card.to_dict() == Card.from_dict(review_log.to_dict()['card']).to_dict()
+        assert (
+            old_card.to_dict() == Card.from_dict(review_log.to_dict()["card"]).to_dict()
+        )
 
         # the new reviewed card can be serialized and de-serialized while remaining the same
         card_dict = card.to_dict()
