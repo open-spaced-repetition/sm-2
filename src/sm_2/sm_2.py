@@ -6,7 +6,7 @@ This module defines each of the classes used in the sm_2 package.
 Classes:
     Card: Represents a flashcard in the SM-2 scheduling system.
     ReviewLog: Represents the log entry of a Card object that has been reviewed.
-    SM2Scheduler: The SM-2 scheduler.
+    Scheduler: The SM-2 scheduler.
 """
 
 from datetime import datetime, timezone, timedelta
@@ -124,7 +124,7 @@ class ReviewLog:
         return ReviewLog(card=card, rating=rating, review_datetime=review_datetime, review_duration=review_duration)
 
 
-class SM2Scheduler:
+class Scheduler:
     """
     The SM-2 scheduler.
 

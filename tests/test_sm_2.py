@@ -1,4 +1,4 @@
-from sm_2 import SM2Scheduler, Card, ReviewLog
+from sm_2 import Scheduler, Card, ReviewLog
 import json
 import pytest
 from copy import deepcopy
@@ -8,7 +8,7 @@ class TestSM2:
 
     def test_quickstart(self):
 
-        scheduler = SM2Scheduler()
+        scheduler = Scheduler()
 
         card = Card()
 
@@ -29,7 +29,7 @@ class TestSM2:
 
     def test_serialize(self):
 
-        scheduler = SM2Scheduler()
+        scheduler = Scheduler()
 
         card = Card()
         old_card = deepcopy(card)

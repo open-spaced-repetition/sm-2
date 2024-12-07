@@ -35,9 +35,9 @@ pip install sm-2
 Import and initialize the SM-2 scheduler
 
 ```python
-from sm_2 import SM2Scheduler, Card, ReviewLog
+from sm_2 import Scheduler, Card, ReviewLog
 
-scheduler = SM2Scheduler()
+scheduler = Scheduler()
 ```
 
 Create a new Card object
@@ -88,10 +88,10 @@ print(f"Card due in {time_delta.seconds / 3600} hours")
 SM-2 uses UTC only. You can still specify custom datetimes, but they must be UTC.
 
 ```python
-from sm_2 import SM2Scheduler, Card, ReviewLog
+from sm_2 import Scheduler, Card, ReviewLog
 from datetime import datetime, timezone
 
-scheduler = SM2Scheduler()
+scheduler = Scheduler()
 
 # create a new card on Jan. 1, 2024
 card = Card(created_at=datetime(2024, 1, 1, 0, 0, 0, 0, timezone.utc)) # right
