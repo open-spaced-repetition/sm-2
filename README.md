@@ -49,14 +49,12 @@ card = Card()
 Choose a rating and review the card
 
 ```python
-"""
-5 - perfect response
-4 - correct response after a hesitation
-3 - correct response recalled with serious difficulty
-2 - incorrect response; where the correct one seemed easy to recall
-1 - incorrect response; the correct one remembered
-0 - complete blackout.
-"""
+# 5 - perfect response
+# 4 - correct response after a hesitation
+# 3 - correct response recalled with serious difficulty
+# 2 - incorrect response; where the correct one seemed easy to recall
+# 1 - incorrect response; the correct one remembered
+# 0 - complete blackout.
 
 rating = 5
 
@@ -123,6 +121,12 @@ This python package is currently unstable and adheres to the following versionin
 - **Patch** version will increase when a bug is fixed or a new feature is added.
 
 Once this package is considered stable, the **Major** version will be bumped to 1.0.0 and will follow [semver](https://semver.org/).
+
+## Other SRS python packages
+
+- [FSRS](https://github.com/open-spaced-repetition/py-fsrs)
+- [Leitner System](https://github.com/open-spaced-repetition/leitner-box)
+- [Anki Default Scheduler](https://github.com/open-spaced-repetition/anki-sm-2)
 
 ## Contribute
 
