@@ -1,4 +1,4 @@
-from sm_2 import Scheduler, Card, ReviewLog
+from sm_2.sm_2 import Scheduler, Card, ReviewLog
 import json
 import pytest
 from copy import deepcopy
@@ -63,4 +63,33 @@ class TestSM2:
         assert vars(card) == vars(copied_card)
         assert card.to_dict() == copied_card.to_dict()
 
-    # TODO: add tests for interval lengths
+    def test_intervals(self):
+
+        scheduler = Scheduler()
+
+        card = Card()
+        now = card.due
+
+        ratings = (
+            4,
+            3,
+            3,
+            4,
+            5,
+            3,
+            0,
+            1,
+            3,
+            3,
+            4,
+            5,
+            3,
+        )
+        ivl_history = []
+        for rating in ratings:
+            card, _ = scheduler.review_card(card, rating, now)
+            ivl = (card.due - now).days
+            ivl_history.append(ivl)
+            now = card.due
+
+        assert ivl_history == [1, 0, 0, 6, 15, 0, 0, 0, 0, 0, 35, 85, 0]
